@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark mode</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js"></script>
+</head>
+<body>
+    <header id="header">
+        <div id="logo">Danilo design</div>
+        <div id="espacediv"></div>
+        <div id="theme">
+            <label>Theme:</label>
+            <input type="color" id="corInput">
+            <h1 id="title"></h1>
+        </div>
+    </header>
+    
+    <div id="corpo">
+        <h2 id="selectedColor"></h2>
+    </div>
+    
+
+    <script>
+        document.getElementById("corInput").addEventListener("input", mudacor);
+    </script>
+
+</body>
+</html>

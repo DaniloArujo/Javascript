@@ -1,0 +1,29 @@
+body{
+    background-color: gray;
+}
+
+header{
+    display: flex;
+}
+
+div#espacediv{
+    width: 2000px;
+    height: 25px;
+}
+div#logo{
+    width: 30px;
+    height: 30px;
+}
+
+div#corpo{
+    background-color: black;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+h1#texto{
+    color: red;
+}
