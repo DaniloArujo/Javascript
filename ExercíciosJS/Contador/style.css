@@ -1,0 +1,32 @@
+body{
+    background-color: gray;
+}
+
+#box{
+    margin-top: 100px;
+    color: red;
+    display: flex;
+    background-color: black;
+    flex-direction: column;
+    width: 100%;
+    height: 500px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#contadordiv{
+    font-size: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#botoes{
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    width: 50%;
+    height: 50px;
+}
