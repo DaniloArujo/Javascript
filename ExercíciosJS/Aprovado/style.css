@@ -1,0 +1,21 @@
+body{
+    background-color: gray
+    ;
+}
+
+
+.principal{
+    flex-direction: column;
+    display: flex;
+    background-color: white;
+    height: 500px;
+    width: auto;
+    align-items: center;
+}
+
+.notas{
+    display: flex;
+    background-color: bisque;
+    height: 400px;
+    width: 500px;
+}
