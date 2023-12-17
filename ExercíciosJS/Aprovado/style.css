@@ -5,6 +5,9 @@ body{
 
 
 .principal{
+    margin-top: 100px;
+    margin-left: 15px;
+    margin-right: 15px;
     flex-direction: column;
     display: flex;
     background-color: white;
@@ -14,8 +17,9 @@ body{
 }
 
 .notas{
-    display: flex;
-    background-color: bisque;
-    height: 400px;
+    padding: 10px;
+    background-color: rgb(225, 210, 193);
+    height: 300px;
     width: 500px;
+    
 }
