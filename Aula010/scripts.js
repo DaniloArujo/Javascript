@@ -1,5 +1,5 @@
 
-document.getElementById("isSelected").onclick = ()=>{
+document.getElementById("isSelected").onclick = () => {
     if(document.getElementById("caixinha").checked == true){
         document.getElementById("resultado").innerHTML = "checked"
     }else{
