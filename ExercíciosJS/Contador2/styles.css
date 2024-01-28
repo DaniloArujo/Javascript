@@ -1,55 +1,67 @@
 
-body{
-    background-color: gray;
-    margin: 0;
-    padding: 0;
-    border: 0;
+/* Reset de estilos para garantir consistência entre navegadores */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#menu{
-    background-color: black;
-    width: auto;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Estilo do corpo da página */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh; /* Torna a página ocupar toda a altura da viewport */
 }
 
-#nome{
-    font-size: 30px;
-    color: red;
+/* Estilo do cabeçalho */
+#menu {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
 }
 
-#principal{
-    display: flex;
-    background-color: rgb(235, 241, 166);
-    width: auto;
-    height: 400px;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 40px;
-    flex-direction: column;
-    align-items: center;
-    padding: 5%;
+#nome {
+  font-size: 1.5em;
 }
 
-#contador{
-    color: red;
-    font-size: 5em;
-    margin-top: 60px;
+/* Estilo da seção principal */
+#principal {
+  text-align: center;
 }
 
-#botoes{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 150px;
-    width: 400px;
+/* Estilo do contador */
+#contador {
+  font-size: 3em;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.btn{
-    width: 100px;
-    height: 40px;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
-    background-color: rgb(224, 233, 192);
+/* Estilo dos botões */
+#botoes {
+  display: flex;
+  justify-content: center;
+  margin-top: 30%;
+  margin-bottom: 100%;
+}
+
+.btn {
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.btn:hover {
+  background-color: #0056b3;
 }
