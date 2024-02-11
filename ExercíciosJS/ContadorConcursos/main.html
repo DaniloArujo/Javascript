@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <title>Registro de Acertos e Erros</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f7f7;
+      text-align: center;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .subject-container {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      text-align: left;
+      position: relative;
+    }
+
+    .subject-title {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .counter-container {
+      margin-bottom: 20px;
+    }
+
+    .counter {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .percentage {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+  
+
+    .close-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: transparent;
+      color: #333;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .close-button:hover {
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Registro de Acertos e Erros</h1>
+
+
+  <div id="card-container">
+    <!-- Cards serão adicionados dinamicamente aqui -->
+  </div>
+
+  <button onclick="criarNovoCard()">Criar Novo Card</button>
+  <button onclick="exportarParaCSV()">Exportar para CSV</button>
+  <input type="file" id="inputCSV" onchange="importarDoCSV(this)">
+
+  <script>
+    function criarNovoCard() {
+      var cardContainer = document.getElementById("card-container");
+
+      var card = document.createElement("div");
+      card.classList.add("subject-container");
+
+      var closeButton = document.createElement("button");
+      closeButton.classList.add("close-button");
+      closeButton.innerHTML = "X";
+      closeButton.onclick = function() { removerCard(card); };
+
+      var materiaInput = document.createElement("input");
+      materiaInput.type = "text";
+      materiaInput.placeholder = "Digite a matéria que está estudando";
+
+      var counterContainer = document.createElement("div");
+      counterContainer.classList.add("counter-container");
+
+      var acertosCounter = document.createElement("p");
+      acertosCounter.classList.add("counter");
+      acertosCounter.innerHTML = "Acertos: <span>0</span>";
+
+      var errosCounter = document.createElement("p");
+      errosCounter.classList.add("counter");
+      errosCounter.innerHTML = "Erros: <span>0</span>";
+
+      var porcentagemCounter = document.createElement("p");
+      porcentagemCounter.classList.add("percentage");
+      porcentagemCounter.innerHTML = "Porcentagem: <span>0%</span>";
+
+      var acertoButton = document.createElement("button");
+      acertoButton.innerHTML = "Registrar Acerto";
+      acertoButton.onclick = function() { registrarContador(card, "acertos"); };
+
+      var erroButton = document.createElement("button");
+      erroButton.innerHTML = "Registrar Erro";
+      erroButton.onclick = function() { registrarContador(card, "erros"); };
+
+      var diminuirButton = document.createElement("button");
+      diminuirButton.innerHTML = "Diminuir Acertos/Erros";
+      diminuirButton.onclick = function() { diminuirContador(card); };
+      
+      var corrigirAcertosButton = document.createElement("button");
+      corrigirAcertosButton.classList.add("corrigir-button");
+      corrigirAcertosButton.innerHTML = "Corrigir Acertos";
+      corrigirAcertosButton.style.backgroundColor = "#e74c3c";
+      corrigirAcertosButton.onclick = function() { corrigirContador(card, "acertos"); };
+
+      var corrigirErrosButton = document.createElement("button");
+      corrigirAcertosButton.classList.add("corrigir-button");
+      corrigirErrosButton.innerHTML = "Corrigir Erros";
+      corrigirErrosButton.style.backgroundColor = "#e74c3c";
+      corrigirErrosButton.onclick = function() { corrigirContador(card, "erros"); };
+
+      card.appendChild(closeButton);
+      card.appendChild(materiaInput);
+      counterContainer.appendChild(acertosCounter);
+      counterContainer.appendChild(errosCounter);
+      counterContainer.appendChild(porcentagemCounter);
+      card.appendChild(counterContainer);
+      card.appendChild(acertoButton);
+      card.appendChild(erroButton);
+      card.appendChild(corrigirAcertosButton);
+      card.appendChild(corrigirErrosButton);
+
+      cardContainer.appendChild(card);
+
+      
+    }
+
+    function registrarContador(card, tipo) {
+      var acertos = card.querySelector(".counter span");
+      var erros = card.querySelector(".counter + .counter span");
+      var porcentagem = card.querySelector(".percentage span");
+
+      if (tipo === "acertos") {
+        acertos.innerText = parseInt(acertos.innerText) + 1;
+      } else {
+        erros.innerText = parseInt(erros.innerText) + 1;
+      }
+
+      atualizarPorcentagem(card);
+    }
+
+    function corrigirContador(card, tipo) {
+      var acertos = card.querySelector(".counter span");
+      var erros = card.querySelector(".counter + .counter span");
+      var porcentagem = card.querySelector(".percentage span");
+
+      if (tipo === "acertos" && parseInt(acertos.innerText) > 0) {
+        acertos.innerText = parseInt(acertos.innerText) - 1;
+      } else if (tipo === "erros" && parseInt(erros.innerText) > 0) {
+        erros.innerText = parseInt(erros.innerText) - 1;
+      }
+
+      atualizarPorcentagem(card);
+    }
+
+    function atualizarPorcentagem(card) {
+      var acertos = parseInt(card.querySelector(".counter span").innerText);
+      var erros = parseInt(card.querySelector(".counter + .counter span").innerText);
+      var total = acertos + erros;
+
+      var porcentagem = total > 0 ? ((acertos / total) * 100).toFixed(2) + "%" : "0%";
+      card.querySelector(".percentage span").innerText = "Porcentagem: " + porcentagem;
+    }
+
+    function resetarContadores(card) {
+      var acertos = card.querySelector(".counter span");
+      var erros = card.querySelector(".counter + .counter span");
+
+      acertos.innerText = "0";
+      erros.innerText = "0";
+
+      atualizarPorcentagem(card);
+    }
+
+    function removerCard(card) {
+      var cardContainer = document.getElementById("card-container");
+      cardContainer.removeChild(card);
+    }
+
+    function exportarParaCSV() {
+      var cards = document.querySelectorAll(".subject-container");
+      var csvContent = "Matéria,Acertos,Erros,Porcentagem\n";
+
+      cards.forEach(function (card) {
+        var materia = card.querySelector("input[type='text']").value;
+        var acertos = card.querySelector(".counter span").innerText;
+        var erros = card.querySelector(".counter + .counter span").innerText;
+        var porcentagem = card.querySelector(".percentage span").innerText;
+
+        csvContent += `${materia},${acertos},${erros},${porcentagem}\n`;
+      });
+
+      var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      var link = document.createElement("a");
+
+      if (navigator.msSaveBlob) {
+        navigator.msSaveBlob(blob, "registro_acertos_erros.csv");
+      } else {
+        link.href = URL.createObjectURL(blob);
+        link.download = "registro_acertos_erros.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+
+    function importarDoCSV(input) {
+      var file = input.files[0];
+
+      if (file) {
+        Papa.parse(file, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function (results) {
+            results.data.forEach(function (data) {
+              criarNovoCard();
+              var cards = document.querySelectorAll(".subject-container");
+              var card = cards[cards.length - 1];
+
+              card.querySelector("input[type='text']").value = data.Matéria;
+              card.querySelector(".counter span").innerText = data.Acertos;
+              card.querySelector(".counter + .counter span").innerText = data.Erros;
+              card.querySelector(".percentage span").innerText = data.Porcentagem;
+
+              atualizarPorcentagem(card);
+            });
+          }
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
